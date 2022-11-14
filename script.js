@@ -27,9 +27,17 @@ if (navigator.geolocation)
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            L.marker(cords).addTo(map)
+
+            map.on('click', function(mapEvent) {
+                console.log(mapEvent);
+                const {lat,lng} = mapEvent.
+
+                L.marker(cords) = mapEvent.latlng
+                .addTo(map)
                 .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
                 .openPopup();
+
+            });
         }, 
         function() {
             alert('Could not get your location');
