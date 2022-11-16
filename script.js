@@ -12,34 +12,34 @@ const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
 
-if (navigator.geolocation)
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            const {latitude} = position.coords;
-            const {longitude} = position.coords;
-            console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
-
-            const cords = [latitude, longitude];
-
-            const map = L.map('map').setView(cords, 13);
-
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        console.log('no location');
+    }
+};
 
 
-            map.on('click', function(mapEvent) {
-                console.log(mapEvent);
-                const {lat,lng} = mapEvent.
+const showPosition = position => {
+    let {latitude} = position.coords;
+    let {longitude} = position.coords;
 
-                L.marker(cords) = mapEvent.latlng
-                .addTo(map)
-                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-                .openPopup();
+    var map = L.map('map');
+    console.log(`https://www.google.com/maps/@${latitude},${longitude},14z`);
 
-            });
-        }, 
-        function() {
-            alert('Could not get your location');
-        }   
-    );
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    map.setView([latitude,longitude], 16);
+
+    L.marker([latitude,longitude]).addTo(map)
+        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+        .openPopup();
+};
+
+getLocation();
+  
+
+
