@@ -11,35 +11,33 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
-
+var map = document.getElementById('map');
 function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-        console.log('no location');
+    } else {
+      map.innerHTML = "Geolocation is not supported by this browser.";
     }
-};
+}
 
+function showPosition(position) {
+    // map.innerHTML = "Latitude: " + position.coords.latitude +
+    // "<br>Longitude: " + position.coords.longitude;
 
-const showPosition = position => {
-    let {latitude} = position.coords;
-    let {longitude} = position.coords;
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
 
-    var map = L.map('map');
-    console.log(`https://www.google.com/maps/@${latitude},${longitude},14z`);
+    var map = L.map('map').setView([lat, long], 13);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
-    map.setView([latitude,longitude], 16);
+L.marker([lat, long]).addTo(map)
+    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+    .openPopup();
 
-    L.marker([latitude,longitude]).addTo(map)
-        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-        .openPopup();
-};
+}
 
 getLocation();
-  
-
 
