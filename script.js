@@ -41,3 +41,6 @@ L.marker([lat, long]).addTo(map)
 
 getLocation();
 
+// hey I am badketta started working
+function showdata();
+
